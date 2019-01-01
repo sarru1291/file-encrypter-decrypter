@@ -4,13 +4,11 @@ echo "----------Welcome to File Encrypter/Decrypter---------"
 echo "Please choose the option: "
 choice="Encrypt Decrypt Exit"
 
-TRUE=false
 function isFileValid(){
 	if [ -e "$1" ] ; then
-		TRUE=true
-	else
-		TRUE=false
+		return 0
 	fi
+		return 1
 }
 
 select option in $choice; do
@@ -19,7 +17,7 @@ select option in $choice; do
 		echo "Please Enter the File name: "
 		read file1
 		isFileValid $file1
-		if [ $TRUE == true ];then		
+		if [ $? == 0 ];then		
 			gpg -c $file1
 			echo "File has been encrypted successfully."
 		else
@@ -31,7 +29,7 @@ select option in $choice; do
 		echo "Please Enter the File name: "
 		read file2
 		isFileValid $file2
-		if [ $TRUE == true ]; then
+		if [ $? == 0 ]; then
 			gpg -d $file2
 			echo "File has been decrypted successfully."
 		else
